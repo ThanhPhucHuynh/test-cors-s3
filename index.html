@@ -9,7 +9,7 @@
   <body>
     <img
       crossorigin="anonymous"
-      src="https://cdn-dop-uat.hdbank.com.vn/assets/scan.svg"
+      src="https://dop-assets.s3.ap-southeast-1.amazonaws.com/assets/approved.svg"
       alt=""
       srcset=""
     />
@@ -17,7 +17,9 @@
     <div id="test"></div>
     <script>
       var test = document.getElementById("test");
-      fetch("https://cdn-dop-uat.hdbank.com.vn/assets/scan.svg")
+      fetch(
+        "https://dop-assets.s3.ap-southeast-1.amazonaws.com/assets/approved.svg"
+      )
         .then((res) => {
           console.log(res);
           return res.text();
