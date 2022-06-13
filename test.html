@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <img
+      src="https://dop-assets.s3.ap-southeast-1.amazonaws.com/assets/approved.svg"
+      alt=""
+      srcset=""
+    />
+    <img
+      src="https://dop-assets.s3.ap-southeast-1.amazonaws.com/assets/direction.svg"
+    />
+    <div id="test"></div>
+    <script>
+      var test = document.getElementById("test");
+      fetch(
+        "https://dop-assets.s3.ap-southeast-1.amazonaws.com/assets/direction.svg"
+      )
+        .then((res) => {
+          console.log(res);
+          return res.text();
+        })
+        .then((h) => {
+          test.innerHTML = h;
+        });
+    </script>
+  </body>
+</html>
