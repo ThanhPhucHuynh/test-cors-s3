@@ -8,19 +8,15 @@
   </head>
   <body>
     <img
-      src="https://dop-assets.s3.ap-southeast-1.amazonaws.com/assets/approved.svg"
+      src="https://d1ui1adxkmwbz7.cloudfront.net/assets/approved.svg"
       alt=""
       srcset=""
     />
-    <img
-      src="https://dop-assets.s3.ap-southeast-1.amazonaws.com/assets/direction.svg"
-    />
+    <img src="https://d1ui1adxkmwbz7.cloudfront.net/assets/direction.svg" />
     <div id="test"></div>
     <script>
       var test = document.getElementById("test");
-      fetch(
-        "https://dop-assets.s3.ap-southeast-1.amazonaws.com/assets/direction.svg"
-      )
+      fetch("https://d1ui1adxkmwbz7.cloudfront.net/assets/direction.svg")
         .then((res) => {
           console.log(res);
           return res.text();
