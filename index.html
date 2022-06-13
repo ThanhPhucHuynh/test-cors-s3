@@ -8,7 +8,7 @@
   </head>
   <body>
     <img
-      src="https://dop-assets.s3.ap-southeast-1.amazonaws.com/assets/banner.svg"
+      src="https://cdn-dop-uat.hdbank.com.vn/assets/scan.svg"
       alt=""
       srcset=""
     />
@@ -16,9 +16,7 @@
     <div id="test"></div>
     <script>
       var test = document.getElementById("test");
-      fetch(
-        "https://dop-assets.s3.ap-southeast-1.amazonaws.com/assets/banner.svg"
-      )
+      fetch("https://cdn-dop-uat.hdbank.com.vn/assets/scan.svg")
         .then((res) => {
           console.log(res);
           return res.text();
