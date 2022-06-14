@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CodePen - Vue search filter</title>
+    <style>
+      html,
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin-top: 16px;
+        margin-bottom: 16px;
+      }
+
+      div#app {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      div#app .search-wrapper {
+        position: relative;
+      }
+      div#app .search-wrapper label {
+        position: absolute;
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.5);
+        top: 8px;
+        left: 12px;
+        z-index: -1;
+        transition: 0.15s all ease-in-out;
+      }
+      div#app .search-wrapper input {
+        padding: 4px 12px;
+        color: rgba(0, 0, 0, 0.7);
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        transition: 0.15s all ease-in-out;
+        background: white;
+      }
+      div#app .search-wrapper input:focus {
+        outline: none;
+        transform: scale(1.05);
+      }
+      div#app .search-wrapper input:focus + label {
+        font-size: 10px;
+        transform: translateY(-24px) translateX(-12px);
+      }
+      div#app .search-wrapper input::-webkit-input-placeholder {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.5);
+        font-weight: 100;
+      }
+      div#app .wrapper {
+        display: flex;
+        max-width: 444px;
+        flex-wrap: wrap;
+        padding-top: 12px;
+      }
+      div#app .card {
+        box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px,
+          rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+        max-width: 124px;
+        margin: 12px;
+        transition: 0.15s all ease-in-out;
+      }
+      div#app .card:hover {
+        transform: scale(1.1);
+      }
+      div#app .card a {
+        text-decoration: none;
+        padding: 12px;
+        color: #03a9f4;
+        font-size: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      div#app .card a img {
+        height: 100px;
+      }
+      div#app .card a small {
+        font-size: 10px;
+        padding: 4px;
+      }
+      div#app .hotpink {
+        background: hotpink;
+      }
+      div#app .green {
+        background: green;
+      }
+      div#app .box {
+        width: 100px;
+        height: 100px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- partial:index.partial.html -->
+    <div id="app">
+      <div class="search-wrapper">
+        <input type="text" v-model="search" placeholder="Search title.." />
+        <label>Search title:</label>
+      </div>
+      <div class="wrapper">
+        <div class="card" v-for="post in filteredList" style="display: flex">
+          <a v-bind:href="post.img" target="_blank">
+            <img style="width: 100%; height: 100%" v-bind:src="post.img" />
+            <small>posted by: {{ post.author }}</small>
+            <div style="width: 100%; height: 100%; font-size: 13px">
+              {{ post.title }}
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- partial -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.9/vue.min.js"></script>
+    <!-- <script  src="./script.js"></script> -->
+    <script>
+      var json = [
+        {
+          title: "bannerDesktop.svg",
+          link: "assets/banner/bannerDesktop.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/banner/bannerDesktop.svg",
+        },
+        {
+          title: "bannerMobile.svg",
+          link: "assets/banner/bannerMobile.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/banner/bannerMobile.svg",
+        },
+        {
+          title: "footerDesktop.svg",
+          link: "assets/footer/footerDesktop.svg",
+          author: "16:31:34",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/footer/footerDesktop.svg",
+        },
+        {
+          title: "footerMobile.svg",
+          link: "assets/footer/footerMobile.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/footer/footerMobile.svg",
+        },
+        {
+          title: "approved.svg",
+          link: "assets/icon/approved.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/icon/approved.svg",
+        },
+        {
+          title: "close.svg",
+          link: "assets/icon/close.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/icon/close.svg",
+        },
+        {
+          title: "code-brackets.svg",
+          link: "assets/icon/code-brackets.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/icon/code-brackets.svg",
+        },
+        {
+          title: "colors.svg",
+          link: "assets/icon/colors.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/icon/colors.svg",
+        },
+        {
+          title: "comments.svg",
+          link: "assets/icon/comments.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/icon/comments.svg",
+        },
+        {
+          title: "direction.svg",
+          link: "assets/icon/direction.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/icon/direction.svg",
+        },
+        {
+          title: "failed.svg",
+          link: "assets/icon/failed.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/icon/failed.svg",
+        },
+        {
+          title: "flow.svg",
+          link: "assets/icon/flow.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/icon/flow.svg",
+        },
+        {
+          title: "plugin.svg",
+          link: "assets/icon/plugin.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/icon/plugin.svg",
+        },
+        {
+          title: "repo.svg",
+          link: "assets/icon/repo.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/icon/repo.svg",
+        },
+        {
+          title: "scan.svg",
+          link: "assets/icon/scan.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/icon/scan.svg",
+        },
+        {
+          title: "stackalt.svg",
+          link: "assets/icon/stackalt.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/icon/stackalt.svg",
+        },
+        {
+          title: "warning.svg",
+          link: "assets/icon/warning.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/icon/warning.svg",
+        },
+        {
+          title: "HDBank.svg",
+          link: "assets/logo/HDBank.svg",
+          author: "16:31:35",
+          img: "https://cdn-dop-uat.hdbank.com.vn/assets/logo/HDBank.svg",
+        },
+      ];
+
+      class Post {
+        constructor(title, link, author, img) {
+          this.title = title;
+          this.link = link;
+          this.author = author;
+          this.img = img;
+        }
+      }
+
+      const app = new Vue({
+        el: "#app",
+        data: {
+          search: "",
+          postList: json.map((e) => {
+            return new Post(e.title, e.link, e.author, e.img);
+          }),
+        },
+
+        computed: {
+          filteredList() {
+            return this.postList.filter((post) => {
+              return post.title
+                .toLowerCase()
+                .includes(this.search.toLowerCase());
+            });
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
